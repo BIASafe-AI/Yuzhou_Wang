@@ -1,0 +1,9 @@
+data:
+  api_key: "67a2b37c264b06.54486756"
+  start_date: "2015-01-01"
+  end_date: "2024-01-30"
+
+portfolio:
+  long_weight: 0.2
+  short_weight: 0.2
+
