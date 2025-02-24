@@ -94,7 +94,7 @@ for i in range(len(unique_months) - 1):
     df_month["Z_Vol20"] = (df_month["Volatility_20d"] - df_month["Volatility_20d"].mean()) / df_month["Volatility_20d"].std()
     
     # Compute composite score: Higher is better
-    df_month["Factor_Score"] = df_month["Z_Mom20"] + df_month["Z_Mom60"] - df_month["Z_Vol20"]
+    df_month["Factor_Score"] = df_month["Z_Mom60"]
     
     # Sort by factor score
     df_month = df_month.sort_values("Factor_Score", ascending=False)
@@ -133,12 +133,12 @@ for i in range(len(unique_months) - 1):
         continue
     
     df_next_month["Strategy_Return"] = df_next_month.apply(
-        lambda row: row["Daily_Return"] if row["Ticker"] in long_stocks 
-                    else (-row["Daily_Return"] if row["Ticker"] in short_stocks else 0),
+        lambda row: row["Daily_Return"] if row["Ticker"] in long_stocks, 
+                   #else (-row["Daily_Return"] if row["Ticker"] in short_stocks else 0),
         axis=1
     )
 
-    daily_strategy = df_next_month.groupby("Date")["Strategy_Return"].sum() / max(len(long_stocks) + len(short_stocks), 1)
+    daily_strategy = df_next_month.groupby("Date")["Strategy_Return"].sum() / max(len(long_stocks), 1)
     
     if not daily_strategy.empty:
         first_day = daily_strategy.index[0]
